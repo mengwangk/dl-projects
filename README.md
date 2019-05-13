@@ -1,2 +1,3 @@
-# FortuneNet
-Neural network for fortune.
+# Deep Learning Projects
+
+Experimenting ideas on deep learning.
