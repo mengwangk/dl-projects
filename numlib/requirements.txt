@@ -1,4 +1,0 @@
-statistics
-statsmodels
-numpy
-pandas
