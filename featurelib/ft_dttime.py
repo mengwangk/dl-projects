@@ -16,11 +16,11 @@ import re
 from pandas import DataFrame
 from dataclasses import dataclass
 
-from .core import FeatureAbstract
+from .core import FtAbstract
 
 
 @dataclass()
-class DateTimeFeature(FeatureAbstract):
+class DateTimeFt(FtAbstract):
     """Date time manipulation"""
 
     def add_datepart(self, df: DataFrame, fldname: str, drop=True, time=False):

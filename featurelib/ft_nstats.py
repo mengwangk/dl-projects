@@ -6,15 +6,19 @@ featurelib
 Number statistics.
 
 """
+import numpy as np
+import pandas as pd
 
 from dataclasses import dataclass
-from .core import FeatureAbstract
+from pandas import DataFrame
+from .core import FtAbstract
 
 
 @dataclass()
-class NumberStatsFeature(FeatureAbstract):
-    """Number statistical features.
+class NStatsFt():
+    """Number statistical feature.
     """
+    data: DataFrame
 
-    def print(self):
+    def test(self):
         print('testing')

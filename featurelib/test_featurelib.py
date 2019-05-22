@@ -4,10 +4,10 @@
 
 import pytest
 
+from .ft_nstats import NStatsFt
 
-def inc(x):
-    return x + 1
-
-
-def test_answer():
-    assert inc(3) == 5
+def test_nstats():
+    data = None
+    nstats_ft = NStatsFt(data)
+    nstats_ft.test()
+    

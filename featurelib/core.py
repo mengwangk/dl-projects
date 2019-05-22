@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 
 
-class FeatureAbstract():
+class FtAbstract():
     """Feature abstract class.
     """
     pass
