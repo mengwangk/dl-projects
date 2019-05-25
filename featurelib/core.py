@@ -16,12 +16,13 @@ from dataclasses import dataclass
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
 
+
 @dataclass()
 class FtAbstract():
-    """Feature abstract class.
+    """Feature base class.
     """
 
-    _data:DataFrame = None
+    _data: DataFrame = None
 
     @property
     def data(self):
@@ -35,5 +36,6 @@ class FtAbstract():
                    var_name=None, value_name='value'):
         """Transpose the data frame using Pandas built-in pandas.melt method.
         """
-        return self._data.melt(id_vars=id_vars, value_vars=value_vars,
-                  var_name=var_name, value_name=value_name)
+        self.data = self._data.melt(id_vars=id_vars, value_vars=value_vars,
+                                    var_name=var_name, value_name=value_name)
+        return self._data

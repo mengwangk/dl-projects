@@ -3,7 +3,7 @@
 """
 featurelib
 ==========
-Date time feature.
+Date time features.
 
 """
 
