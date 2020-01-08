@@ -1,6 +1,6 @@
 import numpy
 import pandas as pd
-import seaborn as sn
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.colors import ListedColormap, BoundaryNorm
@@ -9,6 +9,13 @@ import matplotlib.patches as mpatches
 import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
+
+def plot_correlation_matrix(df):
+    fig, ax = plt.subplots(figsize=(20,10))         
+    corr = df.corr()
+    sns.heatmap(corr, cmap='YlGnBu', annot_kws={'size':30}, ax=ax)
+    ax.set_title("Correlation Matrix", fontsize=14)
+    plt.show()
 
 def plot_feature_importances(clf, feature_names):
     c_features = len(feature_names)
