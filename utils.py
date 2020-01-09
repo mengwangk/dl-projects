@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, RandomForestClassifier
-from sklearn.preprocessing import Imputer
+from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score, RandomizedSearchCV
 from sklearn.metrics import make_scorer, median_absolute_error, f1_score
 
@@ -21,7 +21,7 @@ def evaluate(train, train_labels, test, test_labels):
     feature_names = list(train.columns)
     
     # Impute the missing values
-    imputer = Imputer(strategy = 'median', axis = 1)
+    imputer = SimpleImputer(strategy = 'median')
     train = imputer.fit_transform(train)
     test = imputer.transform(test)
     
