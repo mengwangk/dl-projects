@@ -9,6 +9,7 @@ import matplotlib.patches as mpatches
 import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
+from sklearn.metrics import confusion_matrix, average_precision_score, precision_recall_curve
 
 def plot_correlation_matrix(df):
     fig, ax = plt.subplots(figsize=(20,10))         
@@ -234,4 +235,68 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
     plt.ylabel('Feature 1')
     plt.title(title)
 
+    plt.show()
+
+def plot_corr(df):
+      """
+  https://www.kaggle.com/andreanuzzo/balance-the-imbalanced-rf-and-xgboost-with-smote
+  """
+  plt.figure(figsize=(12,30*4))
+  import matplotlib.gridspec as gridspec
+  features = df.iloc[:,0:30].columns
+  gs = gridspec.GridSpec(30, 1)
+  for i, feature in enumerate(df[features]):
+      ax = plt.subplot(gs[i])
+      sns.distplot(df[feature][df.Label == 1], bins=50)
+      sns.distplot(df[feature][df.Label == 0], bins=50)
+      ax.set_xlabel('')
+      ax.set_title('Feature: ' + str(feature))
+  plt.show()
+
+def plot_cm(classifier, predictions):
+    cm = confusion_matrix(y_test, predictions)
+    
+    plt.clf()
+    plt.imshow(cm, interpolation='nearest', cmap='RdBu')
+    classNames = ['Normal','Fraud']
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    tick_marks = np.arange(len(classNames))
+    plt.xticks(tick_marks, classNames, rotation=45)
+    plt.yticks(tick_marks, classNames)
+    s = [['TN','FP'], ['FN', 'TP']]
+    
+    for i in range(2):
+        for j in range(2):
+            plt.text(j,i, str(s[i][j])+" = "+str(cm[i][j]), 
+                     horizontalalignment='center', color='White')
+    
+    plt.show()
+        
+    tn, fp, fn, tp = cm.ravel()
+
+    recall = tp / (tp + fn)
+    precision = tp / (tp + fp)
+    F1 = 2*recall*precision/(recall+precision)
+
+    print('Recall={0:0.3f}'.format(recall),'\nPrecision={0:0.3f}'.format(precision))
+    print('F1={0:0.3f}'.format(F1))
+
+def plot_aucprc(classifier, scores):
+    """
+    https://www.kaggle.com/andreanuzzo/balance-the-imbalanced-rf-and-xgboost-with-smote
+    """
+    precision, recall, _ = precision_recall_curve(y_test, scores, pos_label=0)
+    average_precision = average_precision_score(y_test, scores)
+
+    print('Average precision-recall score: {0:0.3f}'.format(
+          average_precision))
+
+    plt.plot(recall, precision, label='area = %0.3f' % average_precision, color="green")
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision Recall Curve')
+    plt.legend(loc="best")
     plt.show()
