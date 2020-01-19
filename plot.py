@@ -238,20 +238,20 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
     plt.show()
 
 def plot_corr(df):
-      """
-  https://www.kaggle.com/andreanuzzo/balance-the-imbalanced-rf-and-xgboost-with-smote
-  """
-  plt.figure(figsize=(12,30*4))
-  import matplotlib.gridspec as gridspec
-  features = df.iloc[:,0:30].columns
-  gs = gridspec.GridSpec(30, 1)
-  for i, feature in enumerate(df[features]):
-      ax = plt.subplot(gs[i])
-      sns.distplot(df[feature][df.Label == 1], bins=50)
-      sns.distplot(df[feature][df.Label == 0], bins=50)
-      ax.set_xlabel('')
-      ax.set_title('Feature: ' + str(feature))
-  plt.show()
+    """
+    https://www.kaggle.com/andreanuzzo/balance-the-imbalanced-rf-and-xgboost-with-smote
+    """
+    plt.figure(figsize=(12,30*4))
+    import matplotlib.gridspec as gridspec
+    features = df.iloc[:,0:30].columns
+    gs = gridspec.GridSpec(30, 1)
+    for i, feature in enumerate(df[features]):
+        ax = plt.subplot(gs[i])
+        sns.distplot(df[feature][df.Label == 1], bins=50)
+        sns.distplot(df[feature][df.Label == 0], bins=50)
+        ax.set_xlabel('')
+        ax.set_title('Feature: ' + str(feature))
+    plt.show()
 
 def plot_cm(classifier, predictions):
     cm = confusion_matrix(y_test, predictions)
