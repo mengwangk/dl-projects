@@ -18,6 +18,10 @@ def plot_correlation_matrix(df):
     ax.set_title("Correlation Matrix", fontsize=14)
     plt.show()
 
+def plot_confusion_matrix(confusion_matrix):
+    sns.heatmap(confusion_matrix, annot=True,fmt='d', cmap=plt.cm.copper)
+    plt.show()
+
 def plot_feature_importances(clf, feature_names):
     c_features = len(feature_names)
     plt.barh(range(c_features), clf.feature_importances_)
