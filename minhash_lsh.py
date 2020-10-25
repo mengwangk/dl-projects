@@ -57,7 +57,12 @@ def create_lsh(content, no_of_bands, n_permutations, n_gram):
 
 
 def find_near_duplicate(
-    query_sentences, sentences, min_jaccard_value, no_of_bands, n_permutations, n_gram
+    query_sentences,
+    sentences,
+    min_jaccard_value=0.25,
+    no_of_bands=50,
+    n_permutations=100,
+    n_gram=9,
 ):
     """Using LSH object finds the near duplicate strings.
 
@@ -161,6 +166,7 @@ def main():
 
 
 def load_dataset():
+    """Load and return databaset in dictionary."""
     dataset_name = "4D.zip"
     dataset_path = Path("datasets")
     dataset = dataset_path / dataset_name
@@ -182,9 +188,46 @@ def load_dataset():
         draws[draw_no] = nos
         # print(draws)
         # break
-    print(len(draws))
-    print(len(df))
+    return draws
+
+
+def find_adjacency(draws):
+    draws_idx = list(draws)
+    draws_nos = list(draws.values())
+
+    # labels = [draws_idx[0]]
+    # content = [" ".join(map(str, draws_nos[0]))]
+    # print(labels)
+    # print(content)
+
+    # minhash = MinHash(content, n_gram=9, permutations=100, hash_bits=64, seed=3)
+    # lsh = LSH(minhash, labels, no_of_bands=50)
+    # print(lsh.query(1, min_jaccard=0.5))
+
+    new_labels = []
+    new_content = []
+    for i in range(0, len(draws)):
+        new_labels.append(draws_idx[i])
+        new_content.append(" ".join(map(str, draws_nos[i])))
+    # print(new_labels)
+    # print(new_content)
+    new_labels.append(99999)
+    new_content.append(" ".join(map(str, draws_nos[0])))
+
+    minhash = MinHash(new_content, n_gram=9, permutations=500, hash_bits=64, seed=3)
+    lsh = LSH(minhash, new_labels, no_of_bands=100)
+
+    adjacency_list = lsh.adjacency_list(min_jaccard=0.5)
+    for key, value in adjacency_list.items():
+        if len(value) > 0:
+            print(key, value)
 
 
 if __name__ == "__main__":
-    load_dataset()
+    # query_sentences = load_content("datasets/query.txt")
+    # target_sentences = load_content("datasets/targets.txt")
+    # find_near_duplicate(query_sentences, target_sentences)
+    draws = load_dataset()
+    find_adjacency(draws)
+    # for key, value in draws.items():
+    #     print(value)
